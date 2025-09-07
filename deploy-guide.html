@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>单词魂斗罗 - 一键部署向导</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Press Start 2P', monospace, sans-serif;
+            background: #000;
+            color: #0f0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #ff0;
+            text-shadow: 2px 2px 0 #f00;
+        }
+        .step {
+            background: #111;
+            border: 2px solid #0f0;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .step.completed {
+            border-color: #0f0;
+            background: #001100;
+        }
+        .step-number {
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background: #000;
+            padding: 0 10px;
+            color: #ff0;
+        }
+        .btn {
+            display: inline-block;
+            background: #0f0;
+            color: #000;
+            padding: 10px 20px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            margin: 10px 10px 10px 0;
+            font-weight: bold;
+        }
+        .btn:hover {
+            background: #ff0;
+        }
+        .code {
+            background: #222;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #0f0;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+        .warning {
+            color: #ff0;
+            margin: 10px 0;
+        }
+        .success {
+            color: #0f0;
+            font-weight: bold;
+        }
+        #github-username {
+            background: #000;
+            color: #0f0;
+            border: 2px solid #0f0;
+            padding: 5px;
+            margin: 0 10px;
+        }
+        .checklist {
+            margin: 15px 0;
+        }
+        .checklist label {
+            display: block;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+        .checklist input[type="checkbox"] {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 单词魂斗罗 - 部署向导</h1>
+        
+        <div class="step completed">
+            <span class="step-number">✅ 准备</span>
+            <h2>项目已准备就绪</h2>
+            <p>✓ 代码已提交到本地Git</p>
+            <p>✓ Vercel配置已完成</p>
+            <p>✓ 构建测试通过</p>
+        </div>
+
+        <div class="step" id="step1">
+            <span class="step-number">步骤 1</span>
+            <h2>创建GitHub仓库</h2>
+            <p class="warning">⚠️ 请在新标签页中操作，保持此页面打开</p>
+            <a href="https://github.com/new" target="_blank" class="btn">打开GitHub创建仓库</a>
+            <div class="checklist">
+                <label><input type="checkbox" id="check1"> Repository name: <strong>word-contra-game</strong></label>
+                <label><input type="checkbox" id="check2"> Description: 单词魂斗罗 - 高中英语学习游戏</label>
+                <label><input type="checkbox" id="check3"> 选择 Public 或 Private</label>
+                <label><input type="checkbox" id="check4"> 点击 Create repository</label>
+            </div>
+        </div>
+
+        <div class="step" id="step2">
+            <span class="step-number">步骤 2</span>
+            <h2>推送代码到GitHub</h2>
+            <p>输入你的GitHub用户名：
+                <input type="text" id="github-username" placeholder="你的用户名">
+                <button class="btn" onclick="generateCommands()">生成命令</button>
+            </p>
+            <div id="commands" style="display:none;">
+                <p>复制并运行以下命令：</p>
+                <div class="code" id="push-commands">
+                    # 命令将在这里生成
+                </div>
+                <button class="btn" onclick="copyCommands()">复制命令</button>
+                <span id="copy-success" style="display:none;" class="success">✓ 已复制</span>
+            </div>
+        </div>
+
+        <div class="step" id="step3">
+            <span class="step-number">步骤 3</span>
+            <h2>在Vercel部署</h2>
+            <p class="warning">⚠️ 确保步骤2完成后再继续</p>
+            <a href="https://vercel.com/new" target="_blank" class="btn">打开Vercel导入项目</a>
+            <div class="checklist">
+                <label><input type="checkbox"> 点击 Import Git Repository</label>
+                <label><input type="checkbox"> 选择 word-contra-game 仓库</label>
+                <label><input type="checkbox"> 确认框架为 Vite</label>
+                <label><input type="checkbox"> 点击 Deploy</label>
+            </div>
+        </div>
+
+        <div class="step" id="success" style="display:none;">
+            <span class="step-number">🎉</span>
+            <h2 class="success">部署成功！</h2>
+            <p>你的游戏已经上线：</p>
+            <p class="code" id="final-url">https://word-contra-game.vercel.app</p>
+            <button class="btn" onclick="checkDeployment()">验证部署</button>
+        </div>
+
+        <div class="step">
+            <span class="step-number">帮助</span>
+            <h2>常见问题</h2>
+            <details>
+                <summary style="cursor:pointer;color:#ff0;">推送代码失败？</summary>
+                <p>1. 确保GitHub仓库已创建</p>
+                <p>2. 使用Personal Access Token而不是密码</p>
+                <p>3. 检查用户名是否正确</p>
+            </details>
+            <details style="margin-top:10px;">
+                <summary style="cursor:pointer;color:#ff0;">Vercel看不到仓库？</summary>
+                <p>点击 "Adjust GitHub App Permissions" 授权访问</p>
+            </details>
+        </div>
+    </div>
+
+    <script>
+        function generateCommands() {
+            const username = document.getElementById('github-username').value;
+            if (!username) {
+                alert('请输入GitHub用户名');
+                return;
+            }
+            
+            const commands = `git remote add origin https://github.com/${username}/word-contra-game.git
+git push -u origin main`;
+            
+            document.getElementById('push-commands').textContent = commands;
+            document.getElementById('commands').style.display = 'block';
+            
+            // 更新最终URL
+            document.getElementById('final-url').textContent = 
+                `https://word-contra-game-${username}.vercel.app`;
+        }
+        
+        function copyCommands() {
+            const commands = document.getElementById('push-commands').textContent;
+            navigator.clipboard.writeText(commands).then(() => {
+                document.getElementById('copy-success').style.display = 'inline';
+                setTimeout(() => {
+                    document.getElementById('copy-success').style.display = 'none';
+                }, 2000);
+            });
+        }
+        
+        function checkDeployment() {
+            const username = document.getElementById('github-username').value || 'your-username';
+            const url = `https://word-contra-game-${username}.vercel.app`;
+            window.open(url, '_blank');
+        }
+        
+        // 检查所有checkbox状态
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const step = this.closest('.step');
+                const allChecked = Array.from(step.querySelectorAll('input[type="checkbox"]'))
+                    .every(cb => cb.checked);
+                
+                if (allChecked) {
+                    step.classList.add('completed');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
