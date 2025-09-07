@@ -1,0 +1,79 @@
+/* Pixel Art Sprites using CSS */
+
+.sprite-hero {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(to bottom,
+    transparent 0%, transparent 25%,
+    #4A90E2 25%, #4A90E2 50%,
+    #2E5C8A 50%, #2E5C8A 75%,
+    #1A3A5C 75%, #1A3A5C 100%
+  );
+  position: relative;
+}
+
+.sprite-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 25%;
+  width: 50%;
+  height: 25%;
+  background: #F4C67A;
+}
+
+.sprite-enemy {
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(to bottom,
+    #8B0000 0%, #8B0000 40%,
+    #FF0000 40%, #FF0000 70%,
+    #8B0000 70%, #8B0000 100%
+  );
+  border: 2px solid #000;
+}
+
+.sprite-boss {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(45deg,
+    #4B0082 0%, #4B0082 25%,
+    #8B008B 25%, #8B008B 50%,
+    #9400D3 50%, #9400D3 75%,
+    #4B0082 75%, #4B0082 100%
+  );
+  border: 3px solid #000;
+  box-shadow: 0 0 10px rgba(148, 0, 211, 0.5);
+}
+
+.sprite-bullet {
+  width: 8px;
+  height: 4px;
+  background: #FFFF00;
+  border: 1px solid #FFA500;
+  box-shadow: 0 0 4px #FFFF00;
+}
+
+.sprite-explosion {
+  width: 32px;
+  height: 32px;
+  background: radial-gradient(circle,
+    #FFFF00 0%, #FFFF00 20%,
+    #FFA500 20%, #FFA500 40%,
+    #FF4500 40%, #FF4500 60%,
+    #FF0000 60%, #FF0000 80%,
+    transparent 80%, transparent 100%
+  );
+  animation: explode 0.5s ease-out;
+}
+
+@keyframes explode {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
